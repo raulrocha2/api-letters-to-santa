@@ -1,5 +1,5 @@
 import "reflect-metadata";
-import express, { NextFunction, Request, Response } from "express";
+import express from "express";
 import { router } from "./routes";
 
 

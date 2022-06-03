@@ -1,9 +1,9 @@
 import { Router } from "express";
-import { adminRoutes } from "./admin-routes";
+import { letterRoutes } from "./letters-routes";
 
 
 const router = Router();
 
-router.use("/santa", adminRoutes)
+router.use("/letter", letterRoutes)
 
 export { router }

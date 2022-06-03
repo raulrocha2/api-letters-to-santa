@@ -1,5 +1,5 @@
-import { LetterDTO } from "../dtos/letter-dto";
-import { ILetterPort } from "../ports/letters-port";
+import { LetterDTO } from "../../dtos/letter-dto";
+import { ILetterPort } from "../../ports/letters-port";
 
 export class CreateLetterUseCase {
   constructor(
