@@ -4,8 +4,6 @@ export class SantaEntity {
 
   id: string;
 
-  first_name: string;
-
   login: string;
 
   password: string;

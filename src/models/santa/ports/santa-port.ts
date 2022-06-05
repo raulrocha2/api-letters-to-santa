@@ -6,5 +6,6 @@ export interface ISantaPort {
   create(data: SantaDTO): Promise<void>;
   findById(id: string): Promise<SantaEntity>;
   findByLogin(login: string): Promise<SantaEntity>;
+  updateToken(id: string, token: string): Promise<void>;
 
 }

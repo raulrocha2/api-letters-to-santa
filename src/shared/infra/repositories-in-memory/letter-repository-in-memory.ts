@@ -46,8 +46,8 @@ export class LetterRepositoryInMemory implements ILetterPort {
     this.letters.push(letter)
   }
 
-  findById(id: string): Promise<LetterEntity> {
-    throw new Error("Method not implemented.");
+  async findById(id: string): Promise<LetterEntity> {
+    return this.letters.find((letter) => letter.id === id)
   }
 
 
