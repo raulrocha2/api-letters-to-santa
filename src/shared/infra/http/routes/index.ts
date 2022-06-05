@@ -4,6 +4,6 @@ import { letterRoutes } from "./letters-routes";
 
 const router = Router();
 
-router.use("/letter", letterRoutes)
+router.use("/v1/letter", letterRoutes)
 
 export { router }

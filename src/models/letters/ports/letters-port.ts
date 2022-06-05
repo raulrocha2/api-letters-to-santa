@@ -11,7 +11,7 @@ export type TypeFindLetterExist = {
 export interface ILetterPort {
 
   create(data: LetterDTO): Promise<void>;
-  findByNameAndAddress({ first_name, last_name, address, zip_code }: TypeFindLetterExist): Promise<LetterEntity>;
+  findByNameAndAddress(data: TypeFindLetterExist): Promise<LetterEntity>;
   findById(id: string): Promise<LetterEntity>;
   findAll(): Promise<LetterEntity[]>;
   findRead(was_read: boolean): Promise<LetterEntity[]>;
