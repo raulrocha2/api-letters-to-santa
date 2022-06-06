@@ -5,7 +5,7 @@ import { letterRoutes } from "./letters-routes";
 
 const router = Router();
 
-router.use("/v1/letter", letterRoutes)
-router.use("/v1/santa", adminRoutes)
+router.use("/api/v1/letter", letterRoutes)
+router.use("/api/v1/santa", adminRoutes)
 
 export { router }

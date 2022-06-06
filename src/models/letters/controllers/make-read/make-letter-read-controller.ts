@@ -11,9 +11,9 @@ export class MakeLetterReadController {
   async handle(req: Request, res: Response): Promise<Response> {
 
     const { id } = req.params;
-    const { approved } = req.body;
+    const { read } = req.body;
 
-    await this.makeLetterReadUseCase.execute(id, approved)
+    await this.makeLetterReadUseCase.execute(id, read)
 
     return res.json({
       success: true

@@ -2,7 +2,7 @@ import { Request, Response } from "express";
 import { FindLettersApprovedUseCase } from "../../use-cases/find-approved/find-letters-approved-use-case";
 
 
-export class FindLettersApprovedController {
+export class FindLettersNotApprovedController {
 
   constructor(
     private findLettersApprovedUseCase: FindLettersApprovedUseCase
@@ -10,9 +10,7 @@ export class FindLettersApprovedController {
 
   async handle(req: Request, res: Response): Promise<Response> {
 
-    const { approved } = req.body
-
-    const result = await this.findLettersApprovedUseCase.execute(approved)
+    const result = await this.findLettersApprovedUseCase.execute(false)
 
     return res.json(result)
 
