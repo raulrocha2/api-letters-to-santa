@@ -37,7 +37,7 @@ describe("Authenticate", () => {
     expect(async () => {
       await sut.execute(
         'admin',
-        'wrong-password'
+        ''
       );
 
     }).rejects.toThrow('Login or Password Invalid !')

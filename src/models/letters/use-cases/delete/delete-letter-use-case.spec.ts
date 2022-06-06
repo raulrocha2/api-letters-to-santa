@@ -44,7 +44,7 @@ describe("Delete Letter", () => {
       zip_code: '123-456',
     });
 
-    await letterRepositoryInMemory.delete(letter1.id)
+    await sut.execute(letter1.id)
 
     const letters = await letterRepositoryInMemory.findAll()
 

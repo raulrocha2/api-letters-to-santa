@@ -12,14 +12,10 @@ let sut: CreateLoginUseCase;
 const makeFakeAccount = async () => {
   const login = "santa.admin";
   const password = "123123";
-  const expiresIn = "1d"
-  const secretToken = "test-secretKeyJWT"
-  const token = await generateTokenJWT.generate({ secretToken, login, expiresIn });
 
   return {
     login,
-    password,
-    token
+    password
   }
 }
 
@@ -31,12 +27,11 @@ describe("Create Login Santa", () => {
   });
 
   test("Should be able to create a new login", async () => {
-    const { login, password, token } = await makeFakeAccount();
-    await sut.execute({
+    const { login, password } = await makeFakeAccount();
+    await sut.execute(
       login,
-      password,
-      token
-    });
+      password
+    );
 
     const santa = await santaRepositoryInMemory.findByLogin('santa.admin');
 
@@ -45,12 +40,11 @@ describe("Create Login Santa", () => {
 
   test("Should not be able to create a new login with the same login", async () => {
     expect(async () => {
-      const { login, password, token } = await makeFakeAccount();
-      await sut.execute({
+      const { login, password } = await makeFakeAccount();
+      await sut.execute(
         login,
-        password,
-        token
-      });
+        password
+      );
 
     }).rejects.toThrow('Login Already exist')
 
@@ -61,15 +55,10 @@ describe("Create Login Santa", () => {
     expect(async () => {
       const login = "s.admin"
       const password = ""
-      const expiresIn = "30d"
-      const secretToken = "iclubs-secretKeyJWT"
-      const token = await generateTokenJWT.generate({ secretToken, login, expiresIn })
-
-      await sut.execute({
+      await sut.execute(
         login,
-        password,
-        token
-      });
+        password
+      );
     }).rejects.toThrow('Password required')
 
   });
@@ -79,15 +68,11 @@ describe("Create Login Santa", () => {
     expect(async () => {
       const login = ""
       const password = "123"
-      const expiresIn = "30d"
-      const secretToken = "iclubs-secretKeyJWT"
-      const token = await generateTokenJWT.generate({ secretToken, login, expiresIn })
 
-      await sut.execute({
+      await sut.execute(
         login,
-        password,
-        token
-      });
+        password
+      );
     }).rejects.toThrow('Login name required')
 
   });

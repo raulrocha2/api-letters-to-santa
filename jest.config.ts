@@ -7,7 +7,7 @@ export default {
   clearMocks: true,
   collectCoverage: true,
   collectCoverageFrom: [
-    '<rootDir>/src/modules/**/use-cases/**/*.ts'
+    '<rootDir>/src/models/**/use-cases/**/*.ts'
   ],
   coverageDirectory: 'coverage',
   testEnvironment: 'node',
