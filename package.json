@@ -4,6 +4,7 @@
   "description": "",
   "main": "index.js",
   "scripts": {
+    "build": "tsc",
     "dev": "ts-node-dev src/shared/infra/http/server.ts",
     "test": "jest --silent --noStackTrace --runInBand",
     "test:unit": "yarn jest -- --watch -c jest-unit.config.ts",
