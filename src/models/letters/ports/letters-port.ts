@@ -18,5 +18,6 @@ export interface ILetterPort {
   findApproved(approved: boolean): Promise<LetterEntity[]>;
   makeRead(id: string, was_read: boolean): Promise<void>;
   makeApproved(id: string, approved: boolean): Promise<void>;
+  delete(id: string): Promise<void>;
 
 }

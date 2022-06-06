@@ -1,0 +1,88 @@
+openapi: 3.0.0
+info:
+  title: Docs API app store-flow
+  description: Documentation to API store flow.
+  version: 0.1.0
+servers:
+  - url: http://localhost:3333
+    description: Internal staging server for testing
+
+components:
+  securitySchemes:
+    bearerAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT
+
+  responses:
+    UnauthorizedError:
+      description: Token is missing or invalid !
+
+tags:
+- name: "user"
+  description: "List all user, update user and get store from user "
+
+- name: "session"
+  description: "Create User, authentication, reset password, forgot password  and logout"
+
+- name: "store"
+  description: "create, update, list all, list by seller"
+  
+paths:
+  /login:
+    post:
+      tags:
+      - "session"
+      summary: "Logs user into the system"
+      description: "Authentication user"
+      consumes:
+        - application/json
+      parameters:
+      - in: body
+        name: login
+        description: "Login with registered user "
+        schema:
+          type: "object"
+          properties: 
+            user_dms:
+              required: true 
+              type: "string"
+
+            password: 
+              required: true
+              type: "string"
+      responses:
+        200:
+          success: true        
+        400:
+          description: "Email or password incorrect !"
+
+  /store/new:
+    post:
+      tags: 
+      - "store"
+      summary: "Create a category"
+      security:
+        - bearerAuth: []
+      requestBody:
+        content: 
+          application/json:
+            schema:
+              type: "object"
+              required:
+                - cnpj
+              properties: 
+                cnpj: 
+                  type: string
+                name: 
+                  type: string
+                brand: 
+                  type: string
+                  
+      responses:
+        201:
+          success: true
+        401:
+          $ref: "#/components/responses/UnauthorizedError"
+      
+     

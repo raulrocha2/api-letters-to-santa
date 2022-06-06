@@ -99,5 +99,11 @@ export class LetterRepositoryInMemory implements ILetterPort {
     this.letters[findIndex].approved = approved;
   }
 
+  async delete(id: string): Promise<void> {
+    const index = this.letters.findIndex((letter) => letter.id === id);
+    this.letters.splice(index, 1)
+  }
+
+
 
 }
