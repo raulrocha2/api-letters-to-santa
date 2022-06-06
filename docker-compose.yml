@@ -1,0 +1,14 @@
+version: "3.9"
+
+services:
+  app:
+    build: .
+    container_name: api-letter-to-santa
+    ports:
+      - 3333:3333
+      - 9229:9229
+    volumes:
+      - .:/user/app
+volumes:
+  pgdata:
+    driver: local
