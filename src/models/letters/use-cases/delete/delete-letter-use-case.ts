@@ -9,6 +9,13 @@ export class DeleteLetterUseCase {
 
   async execute(id: string): Promise<void> {
 
+    const letterExists = await this.letterRepository.findById(id);
+
+    if (!letterExists) {
+      throw new Error(`Letter ID: ${id} not found !`)
+    };
+
+
     await this.letterRepository.delete(id)
   }
 

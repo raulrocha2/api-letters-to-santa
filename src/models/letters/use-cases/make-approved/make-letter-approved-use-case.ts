@@ -1,4 +1,3 @@
-import { LetterEntity } from "../../entities/letters-entity";
 import { ILetterPort } from "../../ports/letters-port";
 
 export class MakeLetterApprovedUseCase {
@@ -8,6 +7,12 @@ export class MakeLetterApprovedUseCase {
   ) { }
 
   async execute(id: string, approved: boolean): Promise<void> {
+
+    const letterExists = await this.letterRepository.findById(id);
+
+    if (!letterExists) {
+      throw new Error(`Letter ID: ${id} not found !`)
+    };
 
     await this.letterRepository.makeApproved(id, approved)
   }

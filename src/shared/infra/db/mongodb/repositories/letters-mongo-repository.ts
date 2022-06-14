@@ -1,9 +1,11 @@
+import { ObjectId } from "mongodb";
 import { LetterDTO } from "../../../../../models/letters/dtos/letter-dto";
 import { LetterEntity } from "../../../../../models/letters/entities/letters-entity";
 import { ILetterPort, TypeFindLetterExist } from "../../../../../models/letters/ports/letters-port";
 import { MongoHelper } from "../helpers/mongoHelper";
 
 export class LettersMongoRepository implements ILetterPort {
+
 
   async create({
     first_name,
@@ -15,8 +17,9 @@ export class LettersMongoRepository implements ILetterPort {
     country,
     body_letter
   }: LetterDTO): Promise<void> {
-    const accountCollection = await MongoHelper.getCollection('letters')
-    await accountCollection.insertOne({
+    const letterCollection = await MongoHelper.getCollection('letters')
+    const newLetter = new LetterEntity();
+    Object.assign(newLetter, {
       first_name,
       last_name,
       address,
@@ -25,37 +28,101 @@ export class LettersMongoRepository implements ILetterPort {
       city,
       country,
       body_letter,
-      was_read: false,
-      approved: false,
-
-      created_at: new Date()
+      create_at: new Date()
     })
 
+    const { id, ...objectWithoutId } = newLetter
+    await letterCollection.insertOne(objectWithoutId)
+
+
   }
 
-  findByNameAndAddress(data: TypeFindLetterExist): Promise<LetterEntity> {
-    throw new Error("Method not implemented.");
+  async findByNameAndAddress({
+    first_name,
+    last_name,
+    address,
+    zip_code
+  }: TypeFindLetterExist): Promise<LetterEntity> {
+    const accountCollection = await MongoHelper.getCollection('letters')
+    const letter = await accountCollection.findOne({
+      first_name: first_name,
+      last_name: last_name,
+      address: address,
+      zip_code: zip_code
+    });
+
+    if (letter) return MongoHelper.map(letter)
   }
-  findById(id: string): Promise<LetterEntity> {
-    throw new Error("Method not implemented.");
+
+  async findById(id: string): Promise<LetterEntity> {
+    const accountCollection = await MongoHelper.getCollection('letters')
+    try {
+      const letter = await accountCollection.findOne({ "_id": new ObjectId(id) });
+      if (letter) return MongoHelper.map(letter)
+
+    } catch (error) {
+      throw new Error(`Invalid Param: ${id}`)
+    }
   }
-  findAll(): Promise<LetterEntity[]> {
-    throw new Error("Method not implemented.");
+
+  async findAll(): Promise<LetterEntity[]> {
+    const letterResult: LetterEntity[] = []
+
+    const letterCollection = await MongoHelper.getCollection('letters')
+    const letters = await letterCollection.find({}).toArray()
+    for (const letter of letters) {
+      letterResult.push(MongoHelper.map(letter))
+    }
+    return letterResult
   }
-  findRead(was_read: boolean): Promise<LetterEntity[]> {
-    throw new Error("Method not implemented.");
+
+  async findRead(was_read: boolean): Promise<LetterEntity[]> {
+    const letterResult: LetterEntity[] = []
+
+    const letterCollection = await MongoHelper.getCollection('letters')
+    const letters = await letterCollection.find({
+      was_read
+    }).toArray()
+    for (const letter of letters) {
+      letterResult.push(MongoHelper.map(letter))
+    }
+    return letterResult
   }
-  findApproved(approved: boolean): Promise<LetterEntity[]> {
-    throw new Error("Method not implemented.");
+
+  async findApproved(approved: boolean): Promise<LetterEntity[]> {
+    const letterResult: LetterEntity[] = []
+
+    const letterCollection = await MongoHelper.getCollection('letters')
+    const letters = await letterCollection.find({
+      approved
+    }).toArray()
+    for (const letter of letters) {
+      letterResult.push(MongoHelper.map(letter))
+    }
+    return letterResult
   }
-  makeRead(id: string, was_read: boolean): Promise<void> {
-    throw new Error("Method not implemented.");
+
+  async makeRead(id: string, was_read: boolean): Promise<void> {
+    const letterCollection = await MongoHelper.getCollection('letters')
+    await letterCollection.updateOne(
+      { "_id": new ObjectId(id) },
+      { $set: { was_read } }
+    )
   }
-  makeApproved(id: string, approved: boolean): Promise<void> {
-    throw new Error("Method not implemented.");
+
+  async makeApproved(id: string, approved: boolean): Promise<void> {
+    const letterCollection = await MongoHelper.getCollection('letters')
+    await letterCollection.updateOne(
+      { "_id": new ObjectId(id) },
+      { $set: { approved } }
+    )
   }
-  delete(id: string): Promise<void> {
-    throw new Error("Method not implemented.");
+
+  async delete(id: string): Promise<void> {
+    const letterCollection = await MongoHelper.getCollection('letters')
+    await letterCollection.deleteOne(
+      { "_id": new ObjectId(id) }
+    )
   }
 
 }

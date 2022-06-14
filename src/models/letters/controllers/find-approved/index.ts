@@ -1,10 +1,10 @@
-import { LetterRepositoryInMemory } from "../../../../shared/infra/repositories-in-memory/letter-repository-in-memory"
+import { LettersMongoRepository } from "../../../../shared/infra/db/mongodb/repositories/letters-mongo-repository"
 import { FindLettersApprovedUseCase } from "../../use-cases/find-approved/find-letters-approved-use-case"
 import { FindLettersApprovedController } from "./find-letters-approved-controller"
 
 export default () => {
-  const letterRepositoryInMemory = LetterRepositoryInMemory.getInstance()
-  const findLettersApprovedUseCase = new FindLettersApprovedUseCase(letterRepositoryInMemory)
+  const lettersMongoRepository = new LettersMongoRepository()
+  const findLettersApprovedUseCase = new FindLettersApprovedUseCase(lettersMongoRepository)
   const findLettersApprovedController = new FindLettersApprovedController(findLettersApprovedUseCase)
 
   return findLettersApprovedController

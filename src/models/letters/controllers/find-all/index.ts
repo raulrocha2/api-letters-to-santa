@@ -1,10 +1,10 @@
-import { LetterRepositoryInMemory } from "../../../../shared/infra/repositories-in-memory/letter-repository-in-memory"
+import { LettersMongoRepository } from "../../../../shared/infra/db/mongodb/repositories/letters-mongo-repository"
 import { FindAllLettersUseCase } from "../../use-cases/find-all/find-all-letters-use-case"
 import { FindAllLettersController } from "./find-all-letters-controller"
 
 export default () => {
-  const letterRepositoryInMemory = LetterRepositoryInMemory.getInstance()
-  const findAllLettersUseCase = new FindAllLettersUseCase(letterRepositoryInMemory)
+  const letterMongoRepository = new LettersMongoRepository()
+  const findAllLettersUseCase = new FindAllLettersUseCase(letterMongoRepository)
   const findAllLettersController = new FindAllLettersController(findAllLettersUseCase)
 
   return findAllLettersController
