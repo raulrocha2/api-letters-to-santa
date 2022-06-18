@@ -6,9 +6,7 @@ import { expressRouteAdapter } from "./express-route-adapter";
 
 const santaRoutes = Router();
 
-santaRoutes.post('/new', (req, res) => {
-  return createLoginController().handle(req, res)
-});
+santaRoutes.post('/new', expressRouteAdapter(createLoginController()));
 
 santaRoutes.post('/login', expressRouteAdapter(authenticateController()));
 
