@@ -1,6 +1,6 @@
-import { SantaDTO } from "../../../models/santa/dtos/santa-dto";
-import { SantaEntity } from "../../../models/santa/entities/santa-entity";
-import { ISantaPort } from "../../../models/santa/ports/santa-port";
+import { SantaDTO } from "../../../domain/santa/dtos/santa-dto";
+import { SantaEntity } from "../../../domain/santa/entities/santa-entity";
+import { ISantaPort } from "../../../domain/santa/ports/santa-port";
 
 export class SantaRepositoryInMemory implements ISantaPort {
 
@@ -9,8 +9,7 @@ export class SantaRepositoryInMemory implements ISantaPort {
   private static INSTANCE: SantaRepositoryInMemory;
 
   private constructor() {
-    this.admins
-      = [];
+    this.admins = [];
   }
 
   public static getInstance(): SantaRepositoryInMemory {

@@ -1,6 +1,6 @@
-import { LetterDTO } from "../../../models/letters/dtos/letter-dto";
-import { LetterEntity } from "../../../models/letters/entities/letters-entity";
-import { ILetterPort, TypeFindLetterExist } from "../../../models/letters/ports/letters-port";
+import { LetterDTO } from "../../../domain/letters/dtos/letter-dto";
+import { LetterEntity } from "../../../domain/letters/entities/letters-entity";
+import { ILetterPort, TypeFindLetterExist } from "../../../domain/letters/ports/letters-port";
 
 
 export class LetterRepositoryInMemory implements ILetterPort {

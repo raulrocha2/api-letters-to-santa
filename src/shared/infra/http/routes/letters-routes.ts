@@ -1,14 +1,14 @@
 import { Router } from "express";
 import { ensureAuthenticated } from "../middleware/ensure-authentacate";
-import createLetterController from "../../../../models/letters/controllers/create"
-import findAllLettersController from "../../../../models/letters/controllers/find-all"
-import findLettersApprovedController from "../../../../models/letters/controllers/find-approved"
-import findLettersReadController from "../../../../models/letters/controllers/find-read"
-import makeLetterApprovedController from "../../../../models/letters/controllers/make-approved"
-import makeLetterReadController from "../../../../models/letters/controllers/make-read"
-import deleteLetterController from "../../../../models/letters/controllers/delete"
-import findLettersNotReadController from "../../../../models/letters/controllers/find-not-read"
-import findNotApprovedController from "../../../../models/letters/controllers/find-not-approved"
+import createLetterController from "../../../../presentation/controllers/letters/create"
+import findAllLettersController from "../../../../presentation/controllers/letters/find-all"
+import findLettersApprovedController from "../../../../presentation/controllers/letters/find-approved"
+import findLettersReadController from "../../../../presentation/controllers/letters/find-read"
+import makeLetterApprovedController from "../../../../presentation/controllers/letters/make-approved"
+import makeLetterReadController from "../../../../presentation/controllers/letters/make-read"
+import deleteLetterController from "../../../../presentation/controllers/letters/delete"
+import findLettersNotReadController from "../../../../presentation/controllers/letters/find-not-read"
+import findNotApprovedController from "../../../../presentation/controllers/letters/find-not-approved"
 
 const letterRoutes = Router();
 

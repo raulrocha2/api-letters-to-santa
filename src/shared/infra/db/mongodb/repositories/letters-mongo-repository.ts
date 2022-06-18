@@ -1,7 +1,7 @@
 import { ObjectId } from "mongodb";
-import { LetterDTO } from "../../../../../models/letters/dtos/letter-dto";
-import { LetterEntity } from "../../../../../models/letters/entities/letters-entity";
-import { ILetterPort, TypeFindLetterExist } from "../../../../../models/letters/ports/letters-port";
+import { LetterDTO } from "../../../../../domain/letters/dtos/letter-dto";
+import { LetterEntity } from "../../../../../domain/letters/entities/letters-entity";
+import { ILetterPort, TypeFindLetterExist } from "../../../../../domain/letters/ports/letters-port";
 import { MongoHelper } from "../helpers/mongoHelper";
 
 export class LettersMongoRepository implements ILetterPort {
@@ -55,9 +55,9 @@ export class LettersMongoRepository implements ILetterPort {
   }
 
   async findById(id: string): Promise<LetterEntity> {
-    const accountCollection = await MongoHelper.getCollection('letters')
+    const santaCollection = await MongoHelper.getCollection('letters')
     try {
-      const letter = await accountCollection.findOne({ "_id": new ObjectId(id) });
+      const letter = await santaCollection.findOne({ "_id": new ObjectId(id) });
       if (letter) return MongoHelper.map(letter)
 
     } catch (error) {

@@ -1,4 +1,4 @@
-import { IGenerateToken, UserToken } from "../protocols/generate-token";
+import { IGenerateToken, UserToken } from "../../presentation/protocols/i-generate-token";
 import { sign } from "jsonwebtoken";
 
 export class GenerateTokenJWT implements IGenerateToken {
