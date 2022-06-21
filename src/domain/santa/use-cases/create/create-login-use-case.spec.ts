@@ -5,9 +5,7 @@ import { SantaDTO } from "../../dtos/santa-dto";
 import { CreateLoginUseCase } from "./create-login-use-case";
 
 
-let santaMongoRepository: SantaMongoRepository;
-let generateTokenJWT: GenerateTokenJWT;
-let sut: CreateLoginUseCase;
+
 
 
 
@@ -20,6 +18,19 @@ const makeFakeAccount = (): SantaDTO => {
     password
   }
 }
+
+type SutTypes = {
+  santaMongoRepository: SantaMongoRepository;
+  sut: CreateLoginUseCase
+}
+
+const makeSut = (): SutTypes => {
+  const santaMongoRepository = new SantaMongoRepository()
+  const generateTokenJWT = new GenerateTokenJWT()
+  const sut = new CreateLoginUseCase(santaMongoRepository, generateTokenJWT)
+  return { sut, santaMongoRepository }
+}
+
 
 describe("Create Login Santa", () => {
 
@@ -34,17 +45,9 @@ describe("Create Login Santa", () => {
     await MongoHelper.disconnect()
   });
 
-
-  const makeSut = () => {
-    santaMongoRepository = new SantaMongoRepository()
-    generateTokenJWT = new GenerateTokenJWT()
-    sut = new CreateLoginUseCase(santaMongoRepository, generateTokenJWT)
-    return { sut }
-  }
-
   test("Should be able to create a new login", async () => {
     const { login, password } = makeFakeAccount();
-    const { sut } = makeSut()
+    const { sut, santaMongoRepository } = makeSut()
     await sut.execute({
       login,
       password
@@ -64,7 +67,7 @@ describe("Create Login Santa", () => {
         password
       });
 
-    }).rejects.toThrow()
+    }).rejects.toThrow('Login Already exist !')
 
   });
 
