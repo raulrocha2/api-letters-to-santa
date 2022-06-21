@@ -19,16 +19,8 @@ export class CreateLoginUseCase {
     const santaExist = await this.santaRepository.findByLogin(login);
 
     if (santaExist) {
-      throw new Error('Login Already exist')
+      throw new Error('Login Already exist !')
     };
-
-    if (!login) {
-      throw new Error('Login name required')
-    }
-
-    if (!password) {
-      throw new Error('Password required')
-    }
 
     const passwordHash = await hash(password, salt);
     const secretToken = auth.secret_token;

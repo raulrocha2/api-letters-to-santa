@@ -1,10 +1,11 @@
-import { SantaRepositoryInMemory } from "../../../../shared/infra/repositories-in-memory/santa-repository-in-memory";
+import { MongoHelper } from "../../../../shared/infra/db/mongodb/helpers/mongoHelper";
+import { SantaMongoRepository } from "../../../../shared/infra/db/mongodb/repositories/santa-mongo-repository";
 import { GenerateTokenJWT } from "../../../../shared/utils/generate-token-jwt";
 import { SantaDTO } from "../../dtos/santa-dto";
 import { CreateLoginUseCase } from "./create-login-use-case";
 
 
-let santaRepositoryInMemory: SantaRepositoryInMemory;
+let santaMongoRepository: SantaMongoRepository;
 let generateTokenJWT: GenerateTokenJWT;
 let sut: CreateLoginUseCase;
 
@@ -21,60 +22,50 @@ const makeFakeAccount = (): SantaDTO => {
 }
 
 describe("Create Login Santa", () => {
-  beforeAll(() => {
-    santaRepositoryInMemory = SantaRepositoryInMemory.getInstance()
-    generateTokenJWT = new GenerateTokenJWT()
-    sut = new CreateLoginUseCase(santaRepositoryInMemory, generateTokenJWT)
+
+  beforeAll(async () => {
+    await MongoHelper.connect('mongodb://localhost:27017/db-letter-to-santa-test')
+
   });
+
+  afterAll(async () => {
+    const santaCollection = await MongoHelper.getCollection('santa')
+    await santaCollection.deleteMany({})
+    await MongoHelper.disconnect()
+  });
+
+
+  const makeSut = () => {
+    santaMongoRepository = new SantaMongoRepository()
+    generateTokenJWT = new GenerateTokenJWT()
+    sut = new CreateLoginUseCase(santaMongoRepository, generateTokenJWT)
+    return { sut }
+  }
 
   test("Should be able to create a new login", async () => {
     const { login, password } = makeFakeAccount();
+    const { sut } = makeSut()
     await sut.execute({
       login,
       password
     });
 
-    const santa = await santaRepositoryInMemory.findByLogin('santa.admin');
+    const santa = await santaMongoRepository.findByLogin('santa.admin');
 
     expect(santa).toHaveProperty('id')
   });
 
   test("Should not be able to create a new login with the same login", async () => {
     expect(async () => {
-      const { login, password } = await makeFakeAccount();
+      const { login, password } = makeFakeAccount();
+      const { sut } = makeSut();
       await sut.execute({
         login,
         password
       });
 
-    }).rejects.toThrow('Login Already exist')
+    }).rejects.toThrow()
 
   });
 
-  test("Should not be able to create a login without password", async () => {
-
-    expect(async () => {
-      const login = "s.admin"
-      const password = ""
-      await sut.execute({
-        login,
-        password
-      });
-    }).rejects.toThrow('Password required')
-
-  });
-
-  test("Should not be able to create a login without login", async () => {
-
-    expect(async () => {
-      const login = ""
-      const password = "123"
-
-      await sut.execute({
-        login,
-        password
-      });
-    }).rejects.toThrow('Login name required')
-
-  });
 })

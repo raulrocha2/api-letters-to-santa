@@ -3,11 +3,12 @@ export default {
   bail: true,
   coverageProvider: "v8",
   roots: ['<rootDir>/src'],
-  preset: "ts-jest",
+  preset: "@shelf/jest-mongodb",
   clearMocks: true,
   collectCoverage: true,
   collectCoverageFrom: [
-    '<rootDir>/src/models/**/use-cases/**/*.ts'
+    '<rootDir>/src/**/*.ts',
+    '!<rootDir>/src/main/**'
   ],
   coverageDirectory: 'coverage',
   testEnvironment: 'node',

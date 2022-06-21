@@ -4,7 +4,7 @@ import { IGenerateToken } from "../../../../presentation/protocols/i-generate-to
 import { SantaDTO } from "../../dtos/santa-dto";
 import { ISantaPort } from "../../ports/santa-port";
 
-type Response = {
+interface IResponse {
   login: string,
   token: string
 }
@@ -16,7 +16,7 @@ export class AuthenticateUseCase {
     private generateToken: IGenerateToken
   ) { }
 
-  async execute({ login, password }: SantaDTO): Promise<Response> {
+  async execute({ login, password }: SantaDTO): Promise<IResponse> {
 
     const santa = await this.santaRepository.findByLogin(login);
 
